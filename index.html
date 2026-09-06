@@ -3,33 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="theme-color" content="#171A1D">
-<title>Leads Tracker — Rental Mobil</title>
+<meta name="theme-color" content="#14121C">
+<title>Leads Tracker</title>
 <link rel="manifest" href="manifest.json">
 <style>
   :root{
-    --bg: #171A1D;
-    --surface: #1E2226;
-    --surface-2: #22262B;
-    --border: #2C3136;
-    --text: #E8E6E1;
-    --text-dim: #9A9A94;
-    --accent: #F4B400;
-    --accent-text: #171A1D;
+    --bg: #14121C;
+    --surface: rgba(255,255,255,0.07);
+    --surface-2: rgba(255,255,255,0.10);
+    --border: rgba(255,255,255,0.14);
+    --text: #F1EFF6;
+    --text-dim: #ABA6BC;
+    --accent: #7C31CF;
+    --accent-text: #ffffff;
     --green: #4C9A6A;
-    --red: #D4574A;
-    --blue: #4A90C2;
+    --red: #E0665A;
+    --blue: #5CA3D9;
   }
   *{ box-sizing: border-box; }
+  html{ min-height: 100%; }
+
+  header, .stat, .filter-btn, .search-row input, .lead-card,
+  .fab, .modal, .field input, .field select, .field textarea,
+  .btn-cancel, .bottom-nav, .report-header, .date-range input,
+  .preset-btn, .rate-card, .breakdown-card, .chart-wrap, .lead-actions button{
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
   body{
     margin:0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
     color: var(--text);
-    padding-bottom: 90px;
+    padding-bottom: 74px;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(96,74,196,0.35), transparent 55%),
+      radial-gradient(circle at 90% 15%, rgba(124,49,207,0.22), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(30,110,140,0.30), transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
   }
   header{
     padding: 20px 16px 16px;
+    background: var(--surface);
     border-bottom: 1px solid var(--border);
   }
   header h1{
@@ -46,15 +63,16 @@
   .stats{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    gap: 8px;
+    padding: 12px 16px;
   }
   .stat{
     background: var(--surface);
-    padding: 14px 8px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 6px;
     text-align:center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   }
   .stat .num{
     font-size: 22px;
@@ -120,16 +138,16 @@
   .lead-card{
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--text-dim);
-    border-radius: 6px;
+    border-radius: 14px;
     padding: 12px 14px;
     margin-bottom: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   }
-  .lead-card.status-belum{ border-left-color: var(--text-dim); }
-  .lead-card.status-followup{ border-left-color: var(--accent); }
-  .lead-card.status-nego{ border-left-color: var(--blue); }
-  .lead-card.status-closing{ border-left-color: var(--green); }
-  .lead-card.status-nolak{ border-left-color: var(--red); opacity: 0.6; }
+  .lead-card.status-belum{ border-color: var(--border); }
+  .lead-card.status-followup{ border-color: rgba(124,49,207,0.45); }
+  .lead-card.status-nego{ border-color: rgba(92,163,217,0.45); }
+  .lead-card.status-closing{ border-color: rgba(76,154,106,0.45); }
+  .lead-card.status-nolak{ border-color: rgba(224,102,90,0.45); opacity: 0.6; }
 
   .lead-top{
     display:flex;
@@ -154,7 +172,7 @@
     font-weight: 600;
   }
   .badge-belum{ background: rgba(154,154,148,0.15); color: var(--text-dim); }
-  .badge-followup{ background: rgba(244,180,0,0.15); color: var(--accent); }
+  .badge-followup{ background: rgba(124,49,207,0.18); color: var(--accent); }
   .badge-nego{ background: rgba(74,144,194,0.15); color: var(--blue); }
   .badge-closing{ background: rgba(76,154,106,0.15); color: var(--green); }
   .badge-nolak{ background: rgba(212,87,74,0.15); color: var(--red); }
@@ -201,7 +219,7 @@
     font-size: 28px;
     line-height: 56px;
     text-align:center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 24px rgba(124,49,207,0.5);
     cursor: pointer;
   }
 
@@ -268,13 +286,185 @@
     font-size: 12px;
     margin-top: 4px;
   }
+
+  .bottom-nav{
+    position: fixed;
+    left:0; right:0; bottom:0;
+    display:flex;
+    gap: 16px;
+    padding: 10px 24px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    z-index: 40;
+  }
+  .nav-btn{
+    flex:1;
+    max-width: 140px;
+    margin: 0 auto;
+    background:none;
+    border:none;
+    border-radius: 12px;
+    color: var(--text-dim);
+    padding: 8px 4px;
+    font-size: 12px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+  }
+  .nav-btn.active{
+    color: var(--accent);
+    background: rgba(124,49,207,0.14);
+  }
+  .nav-btn .nav-icon{
+    font-size: 18px;
+    line-height:1;
+  }
+
+  .page{ display:none; }
+  .page.active{ display:block; }
+
+  .report-header{
+    padding: 20px 16px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .report-header h1{
+    margin:0;
+    font-size: 18px;
+    font-weight:700;
+  }
+  .date-range{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    padding: 14px 16px 8px;
+  }
+  .date-range input{
+    flex:1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .date-range span{ color: var(--text-dim); font-size: 13px; }
+
+  .range-presets{
+    display:flex;
+    gap:12px;
+    padding: 4px 16px 16px;
+    overflow-x:auto;
+  }
+  .preset-btn{
+    flex-shrink:0;
+    background: var(--surface);
+    border:1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor:pointer;
+  }
+  .preset-btn.active{
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .report-body{ padding: 4px 16px 16px; }
+
+  .rate-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    text-align:center;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+  .rate-card .rate-num{
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .rate-card .rate-label{
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .rate-card .rate-sub{
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 10px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+
+  .breakdown-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .breakdown-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  }
+  .breakdown-card .bnum{
+    font-size: 20px;
+    font-weight:700;
+  }
+  .breakdown-card .blabel{
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .section-title{
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 18px 0 8px;
+    font-weight:600;
+  }
+
+  .platform-row{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .platform-row:last-child{ border-bottom:none; }
+  .platform-row .pname{ color: var(--text); }
+  .platform-row .pcount{ color: var(--text-dim); }
+
+  .chart-wrap{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+    margin-top: 4px;
+    position: relative;
+    height: 220px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
 </style>
 </head>
 <body>
 
+<div class="page active" id="page-leads">
 <header>
   <h1>Leads Tracker</h1>
-  <p>Rental mobil — outreach &amp; follow up</p>
+  <p>Kelola leads &amp; follow up</p>
 </header>
 
 <div class="stats">
@@ -300,13 +490,62 @@
 <div id="list"></div>
 
 <button class="fab" id="addBtn" aria-label="Tambah leads">+</button>
+</div>
+
+<div class="page" id="page-report">
+  <div class="report-header">
+    <h1>Laporan</h1>
+  </div>
+
+  <div class="range-presets" id="presetBar">
+    <button class="preset-btn" data-preset="7">7 hari</button>
+    <button class="preset-btn active" data-preset="30">30 hari</button>
+    <button class="preset-btn" data-preset="90">90 hari</button>
+    <button class="preset-btn" data-preset="all">Semua</button>
+  </div>
+
+  <div class="date-range">
+    <input type="date" id="report-from">
+    <span>—</span>
+    <input type="date" id="report-to">
+  </div>
+
+  <div class="report-body">
+    <div class="rate-card">
+      <div class="rate-num" id="report-rate">0%</div>
+      <div class="rate-label">Closing rate</div>
+      <div class="rate-sub" id="report-rate-sub">0 closing dari 0 leads</div>
+    </div>
+
+    <div class="breakdown-grid" id="report-breakdown"></div>
+
+    <div class="section-title">Per platform</div>
+    <div id="report-platform"></div>
+
+    <div class="section-title">Leads masuk per hari</div>
+    <div class="chart-wrap">
+      <canvas id="report-chart"></canvas>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-page="leads">
+    <span class="nav-icon">&#128203;</span>
+    Leads
+  </button>
+  <button class="nav-btn" data-page="report">
+    <span class="nav-icon">&#128202;</span>
+    Laporan
+  </button>
+</nav>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h2 id="modalTitle">Tambah leads</h2>
     <div class="field">
       <label for="f-name">Nama / akun</label>
-      <input type="text" id="f-name" placeholder="Sewa Hiace Bandung">
+      <input type="text" id="f-name" placeholder="Nama bisnis atau kontak">
       <div class="error-text" id="err-name" style="display:none;">Nama wajib diisi</div>
     </div>
     <div class="field">
@@ -342,7 +581,7 @@
     </div>
     <div class="field">
       <label for="f-template">Draft pesan WA (opsional)</label>
-      <textarea id="f-template" placeholder="Halo kak, izin kenalan, saya Fajar..."></textarea>
+      <textarea id="f-template" placeholder="Halo kak, izin kenalan..."></textarea>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" id="cancelBtn">Batal</button>
@@ -351,11 +590,13 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
   const STORAGE_KEY = 'leads_tracker_data_v1';
   let leads = [];
   let editingId = null;
   let currentFilter = 'semua';
+  let reportChart = null;
 
   const statusLabel = {
     belum: 'Belum bales',
@@ -576,8 +817,138 @@
     });
   }
 
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('page-' + btn.dataset.page).classList.add('active');
+      if(btn.dataset.page === 'report') renderReport();
+    });
+  });
+
+  function isoDaysAgo(n){
+    const d = new Date();
+    d.setDate(d.getDate() - n);
+    return d.toISOString().slice(0,10);
+  }
+
+  function applyPreset(preset){
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.toggle('active', b.dataset.preset === preset));
+    const toInput = document.getElementById('report-to');
+    const fromInput = document.getElementById('report-from');
+    const today = new Date().toISOString().slice(0,10);
+    toInput.value = today;
+    if(preset === 'all'){
+      const dates = leads.map(l => l.date).filter(Boolean).sort();
+      fromInput.value = dates.length ? dates[0] : today;
+    } else {
+      fromInput.value = isoDaysAgo(parseInt(preset, 10));
+    }
+    renderReport();
+  }
+
+  document.getElementById('presetBar').addEventListener('click', (e) => {
+    if(!e.target.classList.contains('preset-btn')) return;
+    applyPreset(e.target.dataset.preset);
+  });
+
+  document.getElementById('report-from').addEventListener('change', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    renderReport();
+  });
+  document.getElementById('report-to').addEventListener('change', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    renderReport();
+  });
+
+  function renderReport(){
+    const from = document.getElementById('report-from').value;
+    const to = document.getElementById('report-to').value;
+
+    const inRange = leads.filter(l => {
+      if(!l.date) return false;
+      return (!from || l.date >= from) && (!to || l.date <= to);
+    });
+
+    const total = inRange.length;
+    const closing = inRange.filter(l => l.status === 'closing').length;
+    const rate = total > 0 ? Math.round((closing / total) * 100) : 0;
+
+    document.getElementById('report-rate').textContent = rate + '%';
+    document.getElementById('report-rate-sub').textContent = closing + ' closing dari ' + total + ' leads';
+
+    const counts = { belum:0, followup:0, nego:0, closing:0, nolak:0 };
+    inRange.forEach(l => { if(counts[l.status] !== undefined) counts[l.status]++; });
+
+    const breakdownEl = document.getElementById('report-breakdown');
+    breakdownEl.innerHTML = `
+      <div class="breakdown-card"><div class="bnum">${counts.belum}</div><div class="blabel">Belum bales</div></div>
+      <div class="breakdown-card"><div class="bnum">${counts.followup}</div><div class="blabel">Follow up</div></div>
+      <div class="breakdown-card"><div class="bnum">${counts.nego}</div><div class="blabel">Nego</div></div>
+      <div class="breakdown-card"><div class="bnum">${counts.nolak}</div><div class="blabel">Nolak</div></div>
+    `;
+
+    const platformCounts = {};
+    inRange.forEach(l => {
+      platformCounts[l.platform] = (platformCounts[l.platform] || 0) + 1;
+    });
+    const platformEl = document.getElementById('report-platform');
+    const platformEntries = Object.entries(platformCounts).sort((a,b) => b[1]-a[1]);
+    platformEl.innerHTML = platformEntries.length
+      ? platformEntries.map(([name,count]) => `
+          <div class="platform-row"><span class="pname">${escapeHtml(name)}</span><span class="pcount">${count} leads</span></div>
+        `).join('')
+      : '<div class="platform-row"><span class="pname">Belum ada data</span></div>';
+
+    renderChart(inRange, from, to);
+  }
+
+  function renderChart(data, from, to){
+    if(!from || !to) return;
+    const dayMap = {};
+    let cursor = new Date(from);
+    const end = new Date(to);
+    while(cursor <= end){
+      dayMap[cursor.toISOString().slice(0,10)] = 0;
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    data.forEach(l => { if(dayMap[l.date] !== undefined) dayMap[l.date]++; });
+
+    const labels = Object.keys(dayMap).map(d => {
+      const dt = new Date(d);
+      return dt.getDate() + '/' + (dt.getMonth()+1);
+    });
+    const values = Object.values(dayMap);
+
+    const ctx = document.getElementById('report-chart').getContext('2d');
+    if(reportChart) reportChart.destroy();
+    reportChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: '#7C31CF',
+          borderRadius: 3,
+          maxBarThickness: 24
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#9A9A94', font: { size: 10 } }, grid: { display: false } },
+          y: { ticks: { color: '#9A9A94', font: { size: 10 }, precision: 0 }, grid: { color: '#2C3136' } }
+        }
+      }
+    });
+  }
+
   loadLeads();
   renderAll();
+  applyPreset('30');
 </script>
 
 </body>
