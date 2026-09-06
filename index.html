@@ -3,50 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="theme-color" content="#14121C">
+<meta name="theme-color" content="#171A1D">
 <title>Leads Tracker</title>
 <link rel="manifest" href="manifest.json">
 <style>
   :root{
-    --bg: #14121C;
-    --surface: rgba(255,255,255,0.07);
-    --surface-2: rgba(255,255,255,0.10);
-    --border: rgba(255,255,255,0.14);
-    --text: #F1EFF6;
-    --text-dim: #ABA6BC;
-    --accent: #7C31CF;
-    --accent-text: #ffffff;
+    --bg: #171A1D;
+    --surface: #1E2226;
+    --surface-2: #22262B;
+    --border: #2C3136;
+    --text: #E8E6E1;
+    --text-dim: #9A9A94;
+    --accent: #F4B400;
+    --accent-text: #171A1D;
     --green: #4C9A6A;
-    --red: #E0665A;
-    --blue: #5CA3D9;
+    --red: #D4574A;
+    --blue: #4A90C2;
   }
   *{ box-sizing: border-box; }
   html{ min-height: 100%; }
 
-  header, .stat, .filter-btn, .search-row input, .lead-card,
-  .fab, .modal, .field input, .field select, .field textarea,
-  .btn-cancel, .bottom-nav, .report-header, .date-range input,
-  .preset-btn, .rate-card, .breakdown-card, .chart-wrap, .lead-actions button{
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-  }
-
   body{
     margin:0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
     color: var(--text);
     padding-bottom: 74px;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at 15% 0%, rgba(96,74,196,0.35), transparent 55%),
-      radial-gradient(circle at 90% 15%, rgba(124,49,207,0.22), transparent 50%),
-      radial-gradient(circle at 50% 100%, rgba(30,110,140,0.30), transparent 60%),
-      var(--bg);
-    background-attachment: fixed;
   }
   header{
     padding: 20px 16px 16px;
-    background: var(--surface);
     border-bottom: 1px solid var(--border);
   }
   header h1{
@@ -63,16 +48,15 @@
   .stats{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 12px 16px;
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
   .stat{
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 6px;
+    padding: 14px 8px;
     text-align:center;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   }
   .stat .num{
     font-size: 22px;
@@ -138,16 +122,16 @@
   .lead-card{
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-left: 3px solid var(--text-dim);
+    border-radius: 6px;
     padding: 12px 14px;
     margin-bottom: 10px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   }
-  .lead-card.status-belum{ border-color: var(--border); }
-  .lead-card.status-followup{ border-color: rgba(124,49,207,0.45); }
-  .lead-card.status-nego{ border-color: rgba(92,163,217,0.45); }
-  .lead-card.status-closing{ border-color: rgba(76,154,106,0.45); }
-  .lead-card.status-nolak{ border-color: rgba(224,102,90,0.45); opacity: 0.6; }
+  .lead-card.status-belum{ border-left-color: var(--text-dim); }
+  .lead-card.status-followup{ border-left-color: var(--accent); }
+  .lead-card.status-nego{ border-left-color: var(--blue); }
+  .lead-card.status-closing{ border-left-color: var(--green); }
+  .lead-card.status-nolak{ border-left-color: var(--red); opacity: 0.6; }
 
   .lead-top{
     display:flex;
@@ -172,7 +156,7 @@
     font-weight: 600;
   }
   .badge-belum{ background: rgba(154,154,148,0.15); color: var(--text-dim); }
-  .badge-followup{ background: rgba(124,49,207,0.18); color: var(--accent); }
+  .badge-followup{ background: rgba(244,180,0,0.15); color: var(--accent); }
   .badge-nego{ background: rgba(74,144,194,0.15); color: var(--blue); }
   .badge-closing{ background: rgba(76,154,106,0.15); color: var(--green); }
   .badge-nolak{ background: rgba(212,87,74,0.15); color: var(--red); }
@@ -209,7 +193,7 @@
   .fab{
     position: fixed;
     right: 16px;
-    bottom: 20px;
+    bottom: 86px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -217,10 +201,14 @@
     color: var(--accent-text);
     border: none;
     font-size: 28px;
-    line-height: 56px;
-    text-align:center;
-    box-shadow: 0 8px 24px rgba(124,49,207,0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     cursor: pointer;
+    z-index: 45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
   }
 
   .modal-overlay{
@@ -315,7 +303,7 @@
   }
   .nav-btn.active{
     color: var(--accent);
-    background: rgba(124,49,207,0.14);
+    background: rgba(244,180,0,0.14);
   }
   .nav-btn .nav-icon{
     font-size: 18px;
@@ -327,7 +315,6 @@
 
   .report-header{
     padding: 20px 16px 12px;
-    background: var(--surface);
     border-bottom: 1px solid var(--border);
   }
   .report-header h1{
@@ -380,11 +367,10 @@
   .rate-card{
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 10px;
     padding: 18px;
     text-align:center;
     margin-bottom: 14px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   }
   .rate-card .rate-num{
     font-size: 36px;
@@ -414,9 +400,8 @@
   .breakdown-card{
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   }
   .breakdown-card .bnum{
     font-size: 20px;
@@ -450,12 +435,11 @@
   .chart-wrap{
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 10px;
     padding: 14px;
     margin-top: 4px;
     position: relative;
     height: 220px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   }
 </style>
 </head>
@@ -489,7 +473,7 @@
 
 <div id="list"></div>
 
-<button class="fab" id="addBtn" aria-label="Tambah leads">+</button>
+<button class="fab" id="addBtn" aria-label="Tambah leads"><span style="margin-top:-2px;">+</span></button>
 </div>
 
 <div class="page" id="page-report">
@@ -929,7 +913,7 @@
         labels,
         datasets: [{
           data: values,
-          backgroundColor: '#7C31CF',
+          backgroundColor: '#F4B400',
           borderRadius: 3,
           maxBarThickness: 24
         }]
