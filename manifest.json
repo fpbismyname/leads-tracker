@@ -1,10 +1,10 @@
 {
-  "name": "Leads Tracker Rental",
+  "name": "Leads Tracker",
   "short_name": "Leads",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#171A1D",
-  "theme_color": "#171A1D",
+  "background_color": "#14121C",
+  "theme_color": "#14121C",
   "icons": [
     {
       "src": "icon.svg",
